@@ -1,0 +1,1219 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    \usepackage{amscd}
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{talk}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{load\PYZus{}ext} notexbook
+\PY{o}{\PYZpc{}}\PY{k}{texify} \PYZhy{}\PYZhy{}code\PYZhy{}theme github
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<IPython.core.display.HTML object>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{core}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{HTML}
+\PY{n}{HTML}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZlt{}style\PYZgt{}}
+
+\PY{l+s+s2}{div.text\PYZus{}cell\PYZus{}render h1 }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{ }
+\PY{l+s+s2}{text\PYZhy{}align:center;}
+\PY{l+s+s2}{\PYZcb{}}
+
+\PY{l+s+s2}{div.text\PYZus{}cell\PYZus{}render h2 }\PY{l+s+s2}{\PYZob{}}
+\PY{l+s+s2}{text\PYZhy{}align:center;}
+\PY{l+s+s2}{\PYZcb{}}
+
+\PY{l+s+s2}{div.text\PYZus{}cell\PYZus{}render h3 }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{ }
+\PY{l+s+s2}{text\PYZhy{}align:center;}
+\PY{l+s+s2}{\PYZcb{}}
+
+\PY{l+s+s2}{div.text\PYZus{}cell\PYZus{}render h4 }\PY{l+s+s2}{\PYZob{}}
+\PY{l+s+s2}{text\PYZhy{}align:center;}
+\PY{l+s+s2}{\PYZcb{}}
+
+\PY{l+s+s2}{div.text\PYZus{}cell\PYZus{}render }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{ /* Customize text cells */}
+\PY{l+s+s2}{font\PYZhy{}size:1em;}
+\PY{l+s+s2}{\PYZcb{}}
+\PY{l+s+s2}{\PYZlt{}/style\PYZgt{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<IPython.core.display.HTML object>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{proj-as-a-scheme}{%
+\section{Proj as a Scheme}\label{proj-as-a-scheme}}
+
+    \hypertarget{scheme}{%
+\subsubsection{Scheme}\label{scheme}}
+
+Scheme is a locally ringed space \(X\) that is locally affine, i.e.~for
+any \(x\in X\), there is an open neighourhood \(x\in U\), such that
+\(X|_U \cong \mathrm{Spec} R\) for some commutative ring \(R\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{structure Scheme extends to\_LocallyRingedSpace : LocallyRingedSpace :=}
+\NormalTok{(local\_affine : ∀ x : to\_LocallyRingedSpace, }
+\NormalTok{    ∃ (U : open\_nhds x) (R : CommRing), nonempty }
+\NormalTok{        (to\_LocallyRingedSpace.restrict U.open\_embedding ≅ }
+\NormalTok{        Spec.to\_LocallyRingedSpace.obj (op R)))}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{locally-ringed-space}{%
+\subsubsection{Locally ringed space}\label{locally-ringed-space}}
+
+A locally ringed space is a sheafed space \(X\) such that for any
+\(x\in X\), the stalk at \(x\) is a local ring.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{structure LocallyRingedSpace extends SheafedSpace CommRing :=}
+\NormalTok{(local\_ring : ∀ x, local\_ring (presheaf.stalk x))}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{sheafed-space}{%
+\subsubsection{Sheafed space}\label{sheafed-space}}
+
+A sheafed space is a presheafed space whose structure presheaf is a
+sheaf.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{structure SheafedSpace extends PresheafedSpace C :=}
+\NormalTok{(is\_sheaf : presheaf.is\_sheaf)}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{presheafed-space}{%
+\subsubsection{Presheafed space}\label{presheafed-space}}
+
+A presheafed space is a topological space \(X\) with a structure
+presheaf on it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{structure PresheafedSpace :=}
+\NormalTok{(carrier : Top)}
+\NormalTok{(presheaf : carrier.presheaf C)}
+\end{Highlighting}
+\end{Shaded}
+
+    Given a \(\mathbb N\)-graded ring, we need a
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  a topology
+\item
+  a sheaf
+\item
+  a proof that stalks are local ring
+\item
+  an affine cover
+\end{enumerate}
+
+    \hypertarget{topology}{%
+\subsection{Topology}\label{topology}}
+
+    Given an \(\mathbb N\)-graded ring \(A\), define its projective spectrum
+as \[
+\left\{I : \text{homogeneous prime ideal of } A\left| \bigoplus_{1\le i}A_i\not\subseteq I\right.\right\}
+\]
+
+    Then given any set \(S\subseteq A\), the zero locus of \(s\), \(Z(s)\)
+is defined as \[
+\left\{x : \mathrm{Proj}| s\subseteq x\right\}
+\]
+
+    Then - \(Z(\emptyset)=\mathrm{Proj}\) and \(Z(A)=\emptyset\)
+
+    \begin{itemize}
+\tightlist
+\item
+  \(Z(s)\cup Z(s') = Z(s\cap s')\)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  \(\bigcap_{i} Z(s_i)= Z\left(\bigcup_{i}s_i\right)\)
+\end{itemize}
+
+    Hence, by taking all the zero loci to be closed sets, we get a topology
+on \(\mathrm{Proj}\). This is the Zariski topology.
+
+    For any \(a\in A\), define basic open set \(D(a)\) as the complement of
+\(Z(\{a\})\). All the basic open sets form a basis for the Zariski
+topology.
+
+    To prove this, we need to show that for any open set \(O=Z(s)\) and
+\(p\in O\), there is some basic open set \(p\in D(a)\subseteq O\). Since
+\(p\not\in Z(s)\), \(s\not\subseteq p\), so some \(a\) is in \(s\) but
+not in \(p\). Then \(p\in D(a)\). \(D(a)\subseteq O\) if and only if
+\(Z(s)\subseteq Z({a})\)
+
+    \hypertarget{structure-sheaf}{%
+\subsection{Structure sheaf}\label{structure-sheaf}}
+
+\includegraphics{img/structure_sheaf.png}
+
+    \hypertarget{homogeneous-localization}{%
+\subsubsection{Homogeneous
+localization}\label{homogeneous-localization}}
+
+For a prime ideal \(\mathfrak p\), the homogeneous localization of
+\(A_{(\mathfrak p)}\) is the subring \[
+\left\{\frac a b\in A_{(\mathfrak p)}\left|\text{$a, b\in A_n$ for some $n\in\mathbb N$}\right.\right\}.
+\] We denote the homogeneously localized ring as \(A^0_{(\mathfrak p)}\)
+Homogeneously localized rings are local.
+
+    \hypertarget{implementation-1}{%
+\paragraph{Implementation 1}\label{implementation-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{def homogeneous\_localization : subring (localization.at\_prime 𝔭) :=}
+\NormalTok{\{ carrier := \{x | ∃ (n : ι) (a b : 𝒜 n) (b\_not\_mem : b.1 ∉ 𝔭), }
+\NormalTok{    x = localization.mk a.1 ⟨b.1, b\_not\_mem⟩\},}
+\NormalTok{  mul\_mem\textquotesingle{} := \_,}
+\NormalTok{  one\_mem\textquotesingle{} := \_,}
+\NormalTok{  add\_mem\textquotesingle{} := \_,}
+\NormalTok{  zero\_mem\textquotesingle{} := \_,}
+\NormalTok{  neg\_mem\textquotesingle{} := \_ \}}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{implementation-2}{%
+\subsubsection{Implementation 2}\label{implementation-2}}
+
+Using quotient
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{structure num\_denom\_same\_deg :=}
+\NormalTok{(deg : ι)}
+\NormalTok{(num denom : 𝒜 deg)}
+\NormalTok{(denom\_not\_mem : (denom : A) ∉ 𝔭)}
+
+\NormalTok{def emb (p : num\_denom\_same\_deg 𝒜 𝔭) : localization.at\_prime 𝔭 :=}
+\NormalTok{localization.mk p.num ⟨p.denom, p.denom\_not\_mem⟩}
+
+\NormalTok{def homogeneous\_localization : Type* :=}
+\NormalTok{quotient (setoid.ker $ emb 𝒜 𝔭)}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{structure-sheaf}{%
+\subsection{Structure sheaf}\label{structure-sheaf}}
+
+For an open set \(U\subseteq\mathrm{Proj}\), take the sections on \(U\)
+as subring of dependent functions \(\prod_{x\in U}A^0_{(x)}\) that are
+locally fractions, i.e. \[
+\left\{s\left|\text{for all $x\in U$, there are some $a, b$ of same degree and $b\not\in x$, such that $s(x)$ locally is $\frac a b$}\right.\right\}
+\] and restriction map as restriction of function.
+
+    This is indeed a ring because:
+
+    \begin{itemize}
+\tightlist
+\item
+  \(0=\frac01\)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  \(1=\frac11\)
+\end{itemize}
+
+    if \(s(x)=\frac a b\) on \(V\) and \(t(x)=\frac c d\) on \(W\)
+
+    \begin{itemize}
+\tightlist
+\item
+  \((s+t)(x)=\frac{ad+bc}{bd}\) on \(V\cap W\)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  \((s\cdot t)(x)=\frac{ac}{bd}\)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  \((-s)(x)=\frac{-a}{b}\)
+\end{itemize}
+
+    \hypertarget{implementation}{%
+\subsubsection{Implementation}\label{implementation}}
+
+\begin{itemize}
+\tightlist
+\item
+  Prelocal predicate
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables \{X : Top.\{v\}\}}
+\NormalTok{variables (T : X → Type v)}
+
+\NormalTok{structure prelocal\_predicate :=}
+\NormalTok{(pred : Π \{U : opens X\}, (Π x : U, T x) → Prop)}
+\NormalTok{(res : ∀ \{U V : opens X\} (i : U ⟶ V) (f : Π x : V, T x) }
+\NormalTok{    (h : pred f), pred (λ x : U, f (i x)))}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{itemize}
+\tightlist
+\item
+  Local predicate
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{structure local\_predicate extends prelocal\_predicate T :=}
+\NormalTok{(locality : ∀ \{U : opens X\} (f : Π x : U, T x)}
+\NormalTok{  (w : ∀ x : U, ∃ (V : opens X) (m : x.1 ∈ V) (i : V ⟶ U), }
+\NormalTok{      pred (λ x : V, f (i x : U))), pred f)}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{itemize}
+\tightlist
+\item
+  Sheafify
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{def prelocal\_predicate.sheafify }
+\NormalTok{    \{T : X → Type v\} }
+\NormalTok{    (P : prelocal\_predicate T) : local\_predicate T :=}
+\NormalTok{\{ pred := λ U f, }
+\NormalTok{    ∀ x : U, ∃ (V : opens X) (m : x.1 ∈ V) (i : V ⟶ U), }
+\NormalTok{        P.pred (λ x : V, f (i x : U)),}
+\NormalTok{  res := \_,}
+\NormalTok{  locality := \_\}}
+\end{Highlighting}
+\end{Shaded}
+
+    
+
+    \begin{itemize}
+\tightlist
+\item
+  In our case, we take \texttt{T} to be
+  \(\mathfrak p\to A^0_{(\mathfrak p)}\) and
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{def is\_fraction }
+\NormalTok{    \{U : opens (projective\_spectrum.Top 𝒜)\} }
+\NormalTok{    (f : Π x : U, at x.1) : Prop :=}
+\NormalTok{∃ (i : ℕ) (r s : 𝒜 i),}
+\NormalTok{  ∀ x : U, ∃ (s\_nin : s.1 ∉ x.1.as\_homogeneous\_ideal),}
+\NormalTok{  (f x) = quotient.mk\textquotesingle{} ⟨i, r, s, s\_nin⟩}
+
+\NormalTok{def is\_fraction\_prelocal : }
+\NormalTok{    prelocal\_predicate (λ (x : projective\_spectrum.Top 𝒜), at x) :=}
+\NormalTok{\{ pred := λ U f, is\_fraction f,}
+\NormalTok{  res := \_ \}}
+
+\NormalTok{def is\_locally\_fraction : }
+\NormalTok{    local\_predicate (λ (x : projective\_spectrum.Top 𝒜), at x) :=}
+\NormalTok{(is\_fraction\_prelocal 𝒜).sheafify}
+\end{Highlighting}
+\end{Shaded}
+
+    Then we can use \texttt{subsheaf\_to\_Types} which states the presheaf
+of \(U\mapsto \{\prod_{x\in U} T x\}\) satisfying \(P\) is a sheaf of
+sets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{def subsheaf\_to\_Types (P : local\_predicate T) : sheaf (Type v) X := \_}
+\end{Highlighting}
+\end{Shaded}
+
+    Then we can use the fact that a presheaf of rings is a sheaf if and only
+if the underlying presheaf of sets is sheaf.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables (G : C ⥤ D)}
+\NormalTok{variables [reflects\_isomorphisms G]}
+\NormalTok{variables [has\_limits C] [has\_limits D] [preserves\_limits G]}
+
+\NormalTok{variables \{X : Top.\{v\}\} (F : presheaf C X)}
+
+\NormalTok{lemma is\_sheaf\_iff\_is\_sheaf\_comp :}
+\NormalTok{  presheaf.is\_sheaf F ↔ presheaf.is\_sheaf (F ⋙ G) := \_}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{mathrmproj-as-a-locally-ringed-space}{%
+\subsubsection{\texorpdfstring{\(\mathrm{Proj}\) as a locally ringed
+space}{\textbackslash mathrm\{Proj\} as a locally ringed space}}\label{mathrmproj-as-a-locally-ringed-space}}
+
+    We will prove that
+\(\mathcal{O}_{\mathrm{Proj}, \mathfrak p}\cong A^0_{(\mathfrak p)}\) by
+constructing a bijective ring homomorphism. Then we are finished since
+\(A^0_{(\mathfrak p)}\) is always a local ring.
+
+    \begin{itemize}
+\item
+  \(\mathcal{O}_{\mathrm{Proj}, \mathfrak p}\to A^0_{(\mathfrak p)}\) is
+  given by \[
+  \langle U, f\rangle\mapsto \frac a b
+  \] where \(f(\mathfrak p)=\frac a b\) on some open neighbourhood of
+  \(\mathfrak p\). This is formally implemented using universal property
+  of colimit by descending
+  \(f\in\mathcal{O}(U)\mapsto f(\mathfrak p)\in A^0_{(\mathfrak p)}\),
+  hence is ring homomorphism by category theory.
+\item
+  \(A^0_{(\mathfrak p)}\to \mathcal{O}_{\mathrm{Proj}, \mathfrak p}\) is
+  given by \[
+  \frac a b \mapsto \left\langle D(b), x\mapsto \frac a b \right\rangle
+  \]
+\end{itemize}
+
+We don't need to prove the latter is a ring homomorphism, all we need is
+that the latter function is the right inverse of the former one.
+
+    \hypertarget{an-affine-cover}{%
+\subsection{An affine cover}\label{an-affine-cover}}
+
+    \(\mathrm{Proj}\) can be covered by basic open sets \(D(f)\) for
+\(f\in A_m\) with \(0 < m\).
+
+    Let \(\mathfrak p\in\mathrm{Proj}\), then
+\(\bigoplus_{1\le i}A_i\not\subseteq\mathfrak p\), then for some
+\(f\in\bigoplus_{1\le i}A_i\), \(f\not\in \mathfrak p\).
+
+    Write \(f=f_1+f_2+\cdots\) where \(f_i\in A_i\), then for some \(0<m\),
+\(f_m\not\in\mathfrak p\). Then \(\mathfrak p\in D(f_m)\).
+
+    We need \(m\) to be strictly positive, because we will be using
+\(m=(m-1)+1\) a lot.
+
+    So we will prove that for \(f\) with positive degree \(m\),
+\(\mathrm{Proj}\mid_{D(f)}\cong\mathrm{Spec} A^0_f\) where \(A^0_f\) is
+the subring of degree zero elements in the localized ring \(A_f\), i.e.
+\[
+A^0_f:=\left\{\frac a{f^i} \left| a\in A_{mi}\right.\right\}
+\]
+
+To prove that these are isomorphic as locally ringed space, we need : -
+a homeomorphism \(h : \mathrm{Proj}\mid_{D(f)}\cong\mathrm{Spec} A^0_f\)
+and - an isomorphism of sheaf
+\(h_*\mathcal O_{\mathrm{Proj}\mid_{D(f)}}\cong \mathcal O_{\mathrm{Spec}A^0_f}\)
+
+In the following, we will fix an \(f\in A_m\) with \(0 < m\).
+
+    \hypertarget{mathrmprojmid_dftomathrmspec-a0_f}{%
+\subsubsection{\texorpdfstring{\(\mathrm{Proj}\mid_{D(f)}\to\mathrm{Spec} A^0_f\)}{\textbackslash mathrm\{Proj\}\textbackslash mid\_\{D(f)\}\textbackslash to\textbackslash mathrm\{Spec\} A\^{}0\_f}}\label{mathrmprojmid_dftomathrmspec-a0_f}}
+
+Given an \(\mathfrak p\in \mathrm{Proj}\mid_{D(f)}\), i.e.~a relevant
+homogeneous prime ideal in \(A\), we need a point in
+\(\mathrm{Spec}A^0_f\), i.e.~a prime ideal.
+
+So let's define \[
+h(\mathfrak p):=\mathrm{span}\left\{\frac g1|g \in \mathfrak p\right\}\cap A^0_f=\mathrm{span}\left\{\frac g{f^i}|g\in \mathfrak p\cap A_{mi}\right\}
+\]
+
+Then we need to check: - \(h(\mathfrak p)\) is prime: -
+\(h(\mathfrak p)\ne A^0_f\); - if \(x_1 x_2\in h(\mathfrak p)\), then
+either \(x_1\in h(\mathfrak p)\) or \(x_2 \in h(\mathfrak p)\); - \(h\)
+is continuous with respect to Zariski topology.
+
+    \hypertarget{hmathfrak-pne-a0_f}{%
+\paragraph{\texorpdfstring{\(h(\mathfrak p)\ne A^0_f\)}{h(\textbackslash mathfrak p)\textbackslash ne A\^{}0\_f}}\label{hmathfrak-pne-a0_f}}
+
+    If \(h(\mathfrak p)= A^0_f\), then
+\(1\in\mathrm{span}\left\{\frac g1|g \in \mathfrak p\right\}\). So write
+\[
+1 = \sum_i\frac{a_i}{f^{n_i}}\frac {g_i}1.
+\]
+
+    By multiplying a suitable power of \(f\), we get \[
+\frac{f^N} 1 = \frac{\sum_i a_i g_i f^{k_i}}1
+\]
+
+    So \(f^M f^N=f^M \sum_i a_i g_i f^{k_i}\), since the right handside is
+in \(\mathfrak p\), the left handside is in \(\mathfrak p\) too.
+Contradiction.
+
+    \hypertarget{if-x_1-x_2in-hmathfrak-p-then-either-x_1in-hmathfrak-p-or-x_2-in-hmathfrak-p}{%
+\paragraph{\texorpdfstring{if \(x_1 x_2\in h(\mathfrak p)\), then either
+\(x_1\in h(\mathfrak p)\) or
+\(x_2 \in h(\mathfrak p)\)}{if x\_1 x\_2\textbackslash in h(\textbackslash mathfrak p), then either x\_1\textbackslash in h(\textbackslash mathfrak p) or x\_2 \textbackslash in h(\textbackslash mathfrak p)}}\label{if-x_1-x_2in-hmathfrak-p-then-either-x_1in-hmathfrak-p-or-x_2-in-hmathfrak-p}}
+
+    Write \(x_1=\frac{a_1}{f^{n_1}}\) and \(x_2=\frac{a_2}{f^{n_2}}\), then
+\(\frac{a_1a_2}{f^{n_1+n_2}}\in\mathrm{span}\left\{\frac g1|g \in \mathfrak p\right\}\),
+so write \[
+\frac{a_1a_2}{f^{n_1+n_2}}=\sum_i \frac{c_i}{f^{n_i}}\frac{g_i}1.
+\]
+
+    By multiplying a suitable power of \(f\), we get \[
+\frac{a_1a_2f^N}1=\frac{\sum_i c_ig_if^{k_i}}1.
+\]
+
+    So \(a_1a_2f^N f^M=f^M\sum_i c_ig_if^{k_i}\), since right handside is in
+\(\mathfrak p\) and \(f\not\in\mathfrak p\), either
+\(a_1\in\mathfrak p\) or \(a_2\in\mathfrak p\).
+
+    \hypertarget{continuity}{%
+\paragraph{continuity}\label{continuity}}
+
+    Since \(\mathrm{Spec}A^0_f\) also has a topological basis of basic open
+set, we only need to consider preimage of basic open sets. Take
+\(\frac{a}{f^n}\), then
+\(h^{-1}\left(D\left(\frac a{f^n}\right)\right)=D(f)\cap D(a)\).
+
+    \(D(f)\cap D(a)\subseteq h^{-1}\left(D\left(\frac a{f^n}\right)\right)\)
+because if \(y\in D(f)\cap D(a)\) and \(\frac a{f^n}\in h(y)\), then \[
+\frac a{f^n}=\sum_i \frac{c_i}{f^{n_i}}\frac{g_i}1
+\]
+
+Then by multiplying suitable powers of \(f\), \[
+\frac{a f^N}1=\frac{\sum_i c_ig_if^{m_i}}1
+\] then this implies \(a\in y\), contradiction.
+
+    If \(h(y)\in D\left(\frac a{f^n}\right)\) and \(a\in y\), then
+\(\frac a 1\in h(y)\), contradiction because
+\(\frac a{f^n}=\frac a1\frac1{f^n}\in h(y)\).
+
+    \hypertarget{mathrmspec-a0_ftomathrmprojmid_df}{%
+\subsubsection{\texorpdfstring{\(\mathrm{Spec} A^0_f\to\mathrm{Proj}\mid_{D(f)}\)}{\textbackslash mathrm\{Spec\} A\^{}0\_f\textbackslash to\textbackslash mathrm\{Proj\}\textbackslash mid\_\{D(f)\}}}\label{mathrmspec-a0_ftomathrmprojmid_df}}
+
+In this case, given a prime ideal in \(A^0_f\) we need to construct an
+relevant homogeneous prime ideal of \(A\). We define the following \[
+g:x \mapsto \left\{a\left|\text{for all $i\in\mathbb N$, $\frac{a_i^m}{f^i}\in x$}\right.\right\}.
+\]
+
+Then we need to prove that - \(g(x)\) is an ideal; - \(g(x)\) is
+homogeneous; - \(g(x)\) is prime; - \(g(x)\) is relevant; - \(g\) is
+continuous.
+
+    \hypertarget{gx-is-an-ideal}{%
+\paragraph{\texorpdfstring{\(g(x)\) is an
+ideal}{g(x) is an ideal}}\label{gx-is-an-ideal}}
+
+\(0\in g(x)\)
+
+    \hypertarget{gx-is-an-ideal}{%
+\paragraph{\texorpdfstring{\(g(x)\) is an
+ideal}{g(x) is an ideal}}\label{gx-is-an-ideal}}
+
+if \(a,b\in g(x)\), then \(a + b\in g(x)\) because
+\begin{equation*}
+\begin{aligned}
+\left(\frac{(a_i+b_i)^m}{f^i}\right)^2 &=\frac{(a_i+b_i)^{2m}}{f^{2i}} \\
+&= \frac{\sum_{j=0}^{2m}{2m\choose j}a_i^j b_i^{2m-j}}{f^{2i}} \\
+&= \sum_{j=0}^{2m}{2m\choose j}\frac{a_i^j b_i^{2m-j}}{f^{2i}}
+\end{aligned}
+\end{equation*}
+if \(m\le j\), we write \[
+\frac{a_i^j b_i^{2m-j}}{f^{2i}} = \frac{a_i^m}{f^i}\frac{a_i^{j-m}b_i^{2m-j}}{f^i};
+\] otherwise, we write \[
+\frac{a_i^j b_i^{2m-j}}{f^{2i}} =\frac{b_i^m}{f^i}\frac{a_i^jb_i^{m-j}}{f^i}
+\]
+
+    \hypertarget{gx-is-an-ideal}{%
+\paragraph{\texorpdfstring{\(g(x)\) is an
+ideal}{g(x) is an ideal}}\label{gx-is-an-ideal}}
+
+if \(a, b \in A\) and \(b\in g(x)\), then \(ab\in g(x)\). We induction
+on \(a\) - if \(a = 0\), then \((ab)_i=0\); - if \(a\in A_n\) and
+\(n\le i\) then \((ab)_i=ab_{n-i}\); - if the result hold for
+\(a_1, a_2\), then \((a_1+a_2)b=a_1b+a_2b\in g(x)\).
+
+    \hypertarget{gx-is-homogeneous}{%
+\paragraph{\texorpdfstring{\(g(x)\) is
+homogeneous}{g(x) is homogeneous}}\label{gx-is-homogeneous}}
+
+If \(a\in g(x)\) then for any \(i\in\mathbb N\), \(a_i\in g(x)\), for
+\(\left(a_i\right)_j=a_i\) or \(0\).
+
+    \hypertarget{gx-is-prime}{%
+\paragraph{\texorpdfstring{\(g(x)\) is
+prime}{g(x) is prime}}\label{gx-is-prime}}
+
+For a homogeneous ideal, prime condition is equivalent to being
+homogeneously prime, i.e.~\(\mathfrak p\) is prime if and only if
+\(1\not\in\mathfrak p\) and for any \(a\in A_i\) and \(b\in A_j\),
+\(ab\in\mathfrak p\) implies \(a\in\mathfrak p\) or \(b\in\mathfrak p\).
+\(1 \not\in g(x)\) because the zeroth projection of \(1\) is \(1\).
+
+Suppose \(a\in A_i\) and \(b\in A_j\), suppose \(a,b\not\in g(x)\) then
+\(\frac{a_n^m}{f^n}\not\in x\) for some \(n\in\mathbb N\) and
+\(\frac{b_k^m}{f^k}\not\in x\) for some \(k\in\mathbb N\). Then \(n=i\)
+for otherwise \(0\not\in x\) and similarly \(k=j\). So
+\(\frac{(ab)_{i+j}^m}{f^{i+j}}=\frac{a_i^m}{f^i}\frac{b_j^m}{f^j}\not\in x\).
+
+    \hypertarget{gx-is-relevant}{%
+\paragraph{\texorpdfstring{\(g(x)\) is
+relevant}{g(x) is relevant}}\label{gx-is-relevant}}
+
+If \(\bigoplus_{1\le i}A_i\le g(x)\) then
+
+\begin{itemize}
+\tightlist
+\item
+  \(f\not\in g(x)\), for otherwise \(1=\frac{f_m^m}{f^m}\in x\), but
+  \(x\ne A^0_f\)
+\item
+  also \(f\in\bigoplus_{1\le i}A_i\), since \(f_0=0\). Contradicting
+  \(\bigoplus_{1\le i}A_i\le g(x)\) and \(f\not\in g(x)\).
+\end{itemize}
+
+    \hypertarget{hcirc-g1}{%
+\paragraph{\texorpdfstring{\(h\circ g=1\)}{h\textbackslash circ g=1}}\label{hcirc-g1}}
+
+\begin{itemize}
+\item
+  \(h(g(x))\le x\) because if \(z\in h(g(x))\) then
+  \(z\in\mathrm{span}\left\{\frac c{f^i}|c\in g(x)\cap A_{mi}\right\}\).
+  So we write \[
+  z=\sum_i \frac{a_i}{f^{n_i}}\frac{c_i}{f^{k_i}}
+  \] since \(c_i\in g(x)\cap A_{mk_i}\),
+  \(\frac{c_i^m}{f^{mk_i}}\in x\), so
+  \(\left(\frac{c_i}{f^{k_i}}\right)^m\in x\), so we are done since
+  \(x\) is prime.
+\item
+  \(x\le h(g(x))\) because if \(\frac{a}{f^k} \in x\) for
+  \(a\in A_{mk}\), then \(a\in g(x)\) for
+  \(\frac{a_i^m}{f^i}=\frac{a^m}{f^{mk}}=\left(\frac{a}{f^k}\right)^m\in x\)
+  if \(i=mk\) or \(0\) otherwise. Thus
+  \(\frac{a}{f^k}\in\mathrm{span}\left\{\frac c1|c \in g(x)\right\}\cap A^0_f\)
+  since \(\frac{a}{f^k}=\frac a 1\frac1{f^k}\).
+\end{itemize}
+
+    \hypertarget{gcirc-h1}{%
+\paragraph{\texorpdfstring{\(g\circ h=1\)}{g\textbackslash circ h=1}}\label{gcirc-h1}}
+
+\begin{itemize}
+\item
+  \(g(h(x))\le x\). If \(z\in g(h(x))\), we need to show \(z_i\in x\).
+  Since \(\frac{z_i^m}{f^i}\in h(x)\), we write \[
+  \frac{z_i^m}{f^i}=\sum_j\frac{c_j}{f^{n_j}}\frac{d_j}1,
+  \] with \(d_j\in x\), by multiplying a suitable power of \(f\), we get
+  \[
+  z_i^mf^N=\sum_jc_jd_jf^{N_j}.
+  \] So \(z_i\in x\).
+\item
+  \(x\le g(h(x))\). If \(z\in x\), then \(z_i\in x\) because \(x\) is
+  homogeneous. So
+  \(\frac{z_i^m}{f^i}=\frac1{f^i}\left(\frac{z_i}1\right)^m\in h(x)\)
+  because \(\frac{z_i}1\in h(x)\).
+\end{itemize}
+
+Now we know that \(h\) and \(g\) are both bijective.
+
+    \hypertarget{continuity}{%
+\paragraph{continuity}\label{continuity}}
+
+\(\mathrm{Proj}|_{D(f)}\) has a basis of the form \(D(f)\cap D(a)\), so
+we check preimages of these are open. We consider
+\(h(D(f)\cap D(a))=h\left(D(f)\cap\bigcup_iD(a_i)\right)=\bigcup_i h(D(f)\cap D(a_i))\).
+Each \(h(D(f)\cap D(a_i))\) is open because
+\(h(D(f)\cap D(a_i))=D\left(\frac{a_i^m}{f^i}\right)\) in
+\(\mathrm{Spec} A^0_f\). To prove
+\(h(D(f)\cap D(a_i))=D\left(\frac{a_i^m}{f^i}\right)\), it is sufficient
+to prove \(h^{-1}(D\left(\frac{a_i^m}{f^i}\right))=D(f)\cap D(a)\) and
+this proven in continuity of \(h\).
+
+Now we only need to prove the preimage of \(D(f)\cap D(a)\) is
+\(h(D(f)\cap D(a))\), this can be easily proved by the fact that
+\(h\circ g\) and \(g\circ h\) are both identity.
+
+Thus we have proven that
+\(\mathrm{Proj}|_{D(f)}\cong \mathrm{Spec} A^0_f\) as topological
+spaces.
+
+    \hypertarget{phih_mathcal-o_mathrmprojmid_dfto-mathcal-o_mathrmspeca0_f}{%
+\subsection{\texorpdfstring{\(\phi:h_*\mathcal O_{\mathrm{Proj}\mid_{D(f)}}\to \mathcal O_{\mathrm{Spec}A^0_f}\)}{\textbackslash phi:h\_*\textbackslash mathcal O\_\{\textbackslash mathrm\{Proj\}\textbackslash mid\_\{D(f)\}\}\textbackslash to \textbackslash mathcal O\_\{\textbackslash mathrm\{Spec\}A\^{}0\_f\}}}\label{phih_mathcal-o_mathrmprojmid_dfto-mathcal-o_mathrmspeca0_f}}
+
+Fix an open set \(U\subseteq\mathrm{Spec}A^0_f\), so we need a ring
+homomorphism
+\(\mathcal O_{\mathrm{Proj}\mid_{D(f)}}(h^{-1}(U))\to\mathcal O_{\mathrm{Spec}A^0_f}(U)\).
+
+    Fix a \(s:\prod_{z\in h^{-1}(U)}A^0_{(z)}\). If \(x\in U\), then
+\(g(x)\in h^{-1}(U)\). Then we have
+\(s(g(x))=\frac n d\in A^0_{(g(x))}\) for some \(n, d \in A_i\).
+
+Thus define \[
+\phi_U(s)(x)=\frac{\frac{nd^{m-1}}{f^i}}{\frac{d^m}{f^i}}.
+\]
+
+    One can check that this is well defined. Assuming that this is indeed a
+ring homomorphism, it is easy to check the following diagram commute.
+\[ 
+\begin{CD} 
+\mathcal O_{\mathrm{Proj}\mid_{D(f)}}(h^{-1}(U)) @>{\phi_U}>> \mathcal O_{\mathrm{Spec}A^0_f}(U) \\
+@VVV                                                           @VVV                              \\
+\mathcal O_{\mathrm{Proj}\mid_{D(f)}}(h^{-1}(V)) @>{\phi_V}>> \mathcal O_{\mathrm{Spec}A^0_f}(V)
+\end{CD}\\ 
+\]
+
+    \hypertarget{phi_u1x1}{%
+\subsubsection{\texorpdfstring{\(\phi_U(1)(x)=1\)}{\textbackslash phi\_U(1)(x)=1}}\label{phi_u1x1}}
+
+Suppose \(1=s(g(1))=\frac n d\) where \(n,d\in A_i\), so for some
+\(c\not\in g(1)\), \(nc=dc\). Since \(c\not\in g(1)\), there is some
+\(j\in\mathbb N\), \(\frac{c_j^m}{f^j}\not\in x\). Then
+\((nc)_{i+j}=(dc)_{i+j}=nc_j=dc_j\). Then \[
+\frac{c_j^m}{f^j}\frac{nd^{m-1}}{f^i}=\frac{c_j^mnd^{m-1}}{f^{i+j}}=\frac{(dc_j)^m}{f^{i+j}}=\frac{c_j^m}{f^j}\frac{d^m}{f^i},
+\] i.e.~\(\phi_U(1)(x)=1\).
+
+Similarly one can prove that \(\phi_U(0)(x)=0\).
+
+    \hypertarget{phi_us_1s_2xphi_us_1xphi_us_2x}{%
+\subsubsection{\texorpdfstring{\(\phi_U(s_1+s_2)(x)=\phi_U(s_1)(x)+\phi_U(s_2)(x)\)}{\textbackslash phi\_U(s\_1+s\_2)(x)=\textbackslash phi\_U(s\_1)(x)+\textbackslash phi\_U(s\_2)(x)}}\label{phi_us_1s_2xphi_us_1xphi_us_2x}}
+
+Let's say \(s_1(g(x))=\frac{n_1}{d_1}\) with \(n_1,d_1\in A_{i_1}\),
+\(s_2(g(x))=\frac{n_2}{d_2}\) with \(n_2, d_2\in A_{i_2}\) and
+\((s_1+s_2)(g(x))=\frac{n_{12}}{d_{12}}=\frac{n_1}{d_1}+\frac{n_2}{d_2}\)
+with \(n_{12}, d_{12}\in A_{i_{12}}\). So our goal is to check
+\begin{equation}
+\frac{\frac{n_{12}d_{12}^{m-1}}{f^{i_{12}}}}{\frac{d_{12}^m}{f^{i_{12}}}}=\frac{\frac{n_1d_1^{m-1}}{f^{i_1}}}{\frac{d_1^m}{f^{i_1}}} + \frac{\frac{n_2d_2^{m-1}}{f^{i_2}}}{\frac{d_2^m}{f^{i_2}}}.
+\end{equation}
+
+
+From
+\(\frac{n_{12}}{d_{12}}=\frac{n_1}{d_1}+\frac{n_2}{d_2}=\frac{n_1d_2+n_2d_1}{d_1d_2}\),
+so we can find a \(c\not\in g(x)\), such that \[
+n_{12}d_1d_2c=(n_1d_2+n_2d_1)d_{12}c.
+\] Since \(c\not\in g(x)\), there is some \(j\in\mathbb N\) such that
+\(\frac{c_j^m}{f^j}\not\in x\). Then by taking the
+\(i_1+i_2+i_{12}+j\)-th projection \[
+n_{12}d_1d_2c_j=(n_1d_2+n_2d_1)d_{12}c_j.
+\]
+
+Using this, one can check that by multiplying \(\frac{c_j^m}{f^j}\), the
+desired equality can be proved.
+
+Similarly \(\phi_U(s_1s_2)(x)=\phi_U(s_1)(x)\phi_U(s_2)(x)\).
+
+    \[
+\frac{\frac{n_1d_1^{m-1}d_2^m}{f^{i_1+i_2}}+\frac{n_2d_2^{m-1}d_1^m}{f^{i_1+i_2}}}{\frac{d_1^md_2^m}{f^{i_1+i_2}}}
+\] \[
+\frac{\frac{n_1d_1^{m-1}d_2^m+n_2d_2^{m-1}d_1^m}{f^{i_1+i_2}}}{\frac{d_1^md_2^m}{f^{i_1+i_2}}}
+\] \[
+\frac{\frac{n_1d_1^{m-1}d_2^m}{f^{i_1+i_2}}+\frac{n_2d_2^{m-1}d_1^m}{f^{i_1+i_2}}}{\frac{d_1^md_2^m}{f^{i_1+i_2}}}=\frac{\frac{n_1d_1^{m-1}d_2^m+n_2d_2^{m-1}d_1^m}{f^{i_1+i_2}}}{\frac{d_1^md_2^m}{f^{i_1+i_2}}}
+\]
+
+    \hypertarget{phi_us-is-locally-quotient}{%
+\subsubsection{\texorpdfstring{\(\phi_U(s)\) is locally
+quotient}{\textbackslash phi\_U(s) is locally quotient}}\label{phi_us-is-locally-quotient}}
+
+Since \(s\) is locally quotient, for any \(x\in U\), there is some open
+set \(V\subseteq \mathrm{Proj}\) such that
+\(g(x)\in V\subseteq h^{-1}(U)\) such that \(s(y)=\frac a b\) for all
+\(y\in V\) where \(a,b\in A_n\) and \(b\not\in y\).
+
+To check \(\phi_U(s)\) is locally quotient, use the open subset \(h(V)\)
+and check that for all \(z\in h(V)\) \[
+\phi_U(s)(z)=\frac{ab^{m-1}}{b^m}.
+\]
+
+    \hypertarget{psimathcal-o_mathrmspeca0_fto-h_mathcal-o_mathrmprojmid_df}{%
+\subsection{\texorpdfstring{\(\psi:\mathcal O_{\mathrm{Spec}A^0_f}\to h_*\mathcal O_{\mathrm{Proj}\mid_{D(f)}}\)}{\textbackslash psi:\textbackslash mathcal O\_\{\textbackslash mathrm\{Spec\}A\^{}0\_f\}\textbackslash to h\_*\textbackslash mathcal O\_\{\textbackslash mathrm\{Proj\}\textbackslash mid\_\{D(f)\}\}}}\label{psimathcal-o_mathrmspeca0_fto-h_mathcal-o_mathrmprojmid_df}}
+
+Fix an open set \(U\subseteq\mathrm{Spec}A^0_f\), so we need a ring
+homomorphism
+\(\mathcal O_{\mathrm{Spec}A^0_f}(U)\to \mathcal O_{\mathrm{Proj}\mid_{D(f)}}(h^{-1}(U))\).
+
+Let \(s\in \mathcal O_{\mathrm{Spec}A^0_f}(U)\) and \(y\in h^{-1}(U)\),
+then \(h(y)\in U\), so we can write \[
+s(h(y))=\frac{a}{b}
+\] where \(a,b\in A^0_f\). Then we can write \(a=\frac{n_a}{f^{i_a}}\)
+for some \(n_a\in A_{mi_a}\) and \(b=\frac{n_b}{f^{i_b}}\) for some
+\(n_b\in A_{mi_b}\).
+
+Then we can define \[
+\psi_U(s)(y)=\frac{n_af^i_b}{n_bf^{i_a}}
+\].
+
+    One can check this is well defined. Assuming that this is a ring
+homomorphism, it is easy to check the following diagram commute. 
+\[
+\begin{CD} 
+\mathcal O_{\mathrm{Spec}A^0_f}(U)) @>{\psi_U}>> \mathcal O_{\mathrm{Proj}\mid_{D(f)}}(h^{-1}(U)) \\
+@VVV                                                           @VVV                              \\
+\mathcal O_{\mathrm{Spec}A^0_f}(V)) @>{\psi_V}>> \mathcal O_{\mathrm{Proj}\mid_{D(f)}}(h^{-1}(V))
+\end{CD}\\ 
+\]
+
+    \hypertarget{psi_u1y1}{%
+\subsubsection{\texorpdfstring{\(\psi_U(1)(y)=1\)}{\textbackslash psi\_U(1)(y)=1}}\label{psi_u1y1}}
+
+Suppose \(\frac11=1(h(y))=\frac a b\) where \(a,b\in A^0_f\), then for
+some \(\frac c{f^l}\not\in h(y)\) \[
+\frac {n_ac}{f^{i_a+l}}=\frac {n_bc}{f^{i_b+l}}
+\] Thus, for some \(n_1\in\mathbb N\) \[
+n_acf^{i_b+l+n_1}=n_bcf^{i_a+l+n_1}
+\] Thus \[
+\psi_U(1)(y)=\frac{n_af^{b_i}}{n_bf^{i_a}}=1.
+\]
+
+Similarly \(\psi_U(0)(y)=0\).
+
+    \hypertarget{psi_us_1s_2ypsi_us_1ycdotpsi_us_2y}{%
+\subsubsection{\texorpdfstring{\(\psi_U(s_1s_2)(y)=\psi_U(s_1)(y)\cdot\psi_U(s_2)(y)\)}{\textbackslash psi\_U(s\_1s\_2)(y)=\textbackslash psi\_U(s\_1)(y)\textbackslash cdot\textbackslash psi\_U(s\_2)(y)}}\label{psi_us_1s_2ypsi_us_1ycdotpsi_us_2y}}
+
+Let's write \[
+s_1(h(y))=\frac{\frac{a_1}{f^{i_1}}}{\frac{b_1}{f^{j_1}}}, s_2(h(y))=\frac{\frac{a_2}{f^{i_2}}}{\frac{b_2}{f^{i_2}}}, (s_1s_2)(h(y))=\frac{\frac{a_{12}}{f^{i_{12}}}}{\frac{b_{12}}{f^{j_{12}}}}.
+\]
+
+Then
+\(\frac{\frac{a_1a_2}{f^{i_1+i_2}}}{\frac{b_1b_2}{f^{j_1+j_2}}}=\frac{\frac{a_{12}}{f^{i_{12}}}}{\frac{b_{12}}{f^{j_{12}}}}\),
+i.e.~for some \(\frac{c}{f^l}\), we have
+
+\[
+\frac{a_1a_2b_{12}c}{f^{i_1+i_2+j_{12}+l}}=\frac{a_{12}b_1b_2c}{f^{i_{12}+j_1+j_2+l}},
+\] i.e.~for some \(L\in\mathbb N\), we have
+
+\[
+a_1a_2b_{12}cf^{i_{12}+j_1+j_2+l+L}=a_{12}b_1b_2cf^{i_1+i_2+j_{12}+l+L}.
+\]
+
+We can use this to prove that \[
+\frac{a_{12}f^{j_{12}}}{b_{12}f^{i_{12}}}=\frac{a_1f^{j_1}}{b_1f^{i_1}}\cdot\frac{a_2f^{j_2}}{b_2f^{i_2}}.
+\]
+
+Similarly, we can prove that
+\(\psi_U(s_1+s_2)(y)=\psi_U(s_1)(y)+\psi_U(s_2)(y)\).
+
+    \hypertarget{psi_us-locally-is-fraction}{%
+\subsubsection{\texorpdfstring{\(\psi_U(s)\) locally is
+fraction}{\textbackslash psi\_U(s) locally is fraction}}\label{psi_us-locally-is-fraction}}
+
+Since \(s\) locally is a fraction, there are open sets
+\(h(y)\in V\subseteq U\), such that for all \(z\in V\), \[
+s(z)=\frac{\frac{a}{f^{l_1}}}{\frac{b}{f^{l_2}}}.
+\]
+
+Then we use \(h^{-1}(V)\) and verify that locally \[
+\psi_U(s)(y)=\frac{af^{l_2}}{bf^{l_1}}.
+\]
+
+    \hypertarget{psicircphi1}{%
+\subsection{\texorpdfstring{\(\psi\circ\phi=1\)}{\textbackslash psi\textbackslash circ\textbackslash phi=1}}\label{psicircphi1}}
+
+Let \(s\in\mathcal O_{\mathrm{Proj}|_{D(f)}}(h^{-1}(U))\), then for
+\(x\in h^{-1}(U)\) \[
+\phi_U(s)=x\mapsto \frac{\frac{nd^{m-1}}{f^i}}{\frac{d^m}{f^i}},
+\] where \(s(x)=\frac n d\).
+
+Thus \[
+\psi_U(\phi_U(s))(x)=\frac{nd^{m-1}f^i}{d^mf^i}=\frac n d=s(x)
+\]
+
+    \hypertarget{phicircpsi1}{%
+\subsection{\texorpdfstring{\(\phi\circ\psi=1\)}{\textbackslash phi\textbackslash circ\textbackslash psi=1}}\label{phicircpsi1}}
+
+Let \(s\in\mathcal O_{\mathrm{Spec}A^0_f}(U)\), then for \(x\in U\) \[
+\psi_U(s)=x\mapsto \frac{n_af^{i_b}}{n_bf^{i_a}}
+\] where \[s(x)=\frac{\frac{n_a}{f^{i_a}}}{\frac{n_b}{f^{i_b}}}.\]
+
+Thus \[
+\phi_U(\psi_U(s))(x)=\frac{\frac{n_af^{i_b}\left(n_bf^{i_a}\right)^{m-1}}{f^{j}}}{\frac{\left(n_bf^{i_a}\right)^m}{f^{j}}}=\frac{\frac{n_a}{f^{i_a}}}{\frac{n_b}{f^{i_b}}}=s(x).
+\]
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
