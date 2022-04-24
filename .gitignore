@@ -1,3 +1,8 @@
 *.olean
 /_target
 /leanpkg.path
+
+*.aux
+*.log
+*.out
+/.ipynb_checkpoints
