@@ -1,1 +1,1 @@
-see [talk.ipynb](talk.ipynb)
+This is a talk given at Lean Summer workshop
